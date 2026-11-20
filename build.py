@@ -85,8 +85,12 @@ def norm(text: str | None) -> str:
 
 
 def clean(text: object) -> str:
-    """Texto de salida en una sola línea."""
-    return re.sub(r"\s+", " ", str(text or "")).strip()
+    """Texto de salida en una sola línea, sin `=`, `+`, `-` ni `@` al inicio.
+
+    Ninguna celda legítima empieza así (las fuentes usan `-` como «vacío»), y quitarlos evita que
+    una hoja de cálculo interprete la celda como fórmula.
+    """
+    return re.sub(r"\s+", " ", str(text or "")).strip().lstrip("=+-@ ").strip()
 
 
 def dosage_form(raw: str) -> str:
