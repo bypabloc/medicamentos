@@ -1,0 +1,358 @@
+{
+  "source_arcsa": "arcsa-2026-11-19.xlsx",
+  "products": {
+    "ec": {
+      "rows": 6376,
+      "with_atc": 6051,
+      "with_strength": 6334,
+      "dosage_form_other": 77,
+      "without_route": 48
+    },
+    "co": {
+      "rows": 9176,
+      "with_atc": 9167,
+      "with_strength": 9176,
+      "dosage_form_other": 172,
+      "without_route": 96
+    },
+    "es": {
+      "rows": 16107,
+      "with_atc": 0,
+      "with_strength": 16107,
+      "dosage_form_other": 156,
+      "without_route": 223
+    }
+  },
+  "ingredients": 7067,
+  "rejected": {
+    "ec:missing_name_or_ingredient": 53,
+    "co:missing_name_or_ingredient": 135,
+    "es:missing_name_or_ingredient": 4
+  },
+  "unmapped_top": {
+    "dosage_form": [
+      [
+        "granulos",
+        65
+      ],
+      [
+        "gas",
+        43
+      ],
+      [
+        "sin dato",
+        39
+      ],
+      [
+        "equipo de reactivos para preparacion radiofarmaceutica",
+        29
+      ],
+      [
+        "barniz de unas medicamentoso",
+        16
+      ],
+      [
+        "implante",
+        14
+      ],
+      [
+        "chicle medicamentoso",
+        14
+      ],
+      [
+        "generador de radionuclido",
+        12
+      ],
+      [
+        "champu",
+        11
+      ],
+      [
+        "aposito adhesivo medicamentoso",
+        10
+      ],
+      [
+        "jalea",
+        9
+      ],
+      [
+        "liquido",
+        9
+      ],
+      [
+        "granulos para reconstituir",
+        8
+      ],
+      [
+        "peliculas orales solubles",
+        6
+      ],
+      [
+        "sistemas de liberacion",
+        6
+      ],
+      [
+        "espuma cutanea",
+        6
+      ],
+      [
+        "pelicula sublingual",
+        6
+      ],
+      [
+        "pasta",
+        5
+      ],
+      [
+        "granulos efervescentes",
+        5
+      ],
+      [
+        "sistema de liberacion intrauterino",
+        5
+      ],
+      [
+        "implantes y sistemas intrauterinos e intraoculares",
+        4
+      ],
+      [
+        "pelicula bucodispersable",
+        4
+      ],
+      [
+        "pelicula bucal (oromucosal film)",
+        4
+      ],
+      [
+        "gas licuado medicinal",
+        4
+      ],
+      [
+        "gas criogenico medicinal",
+        4
+      ],
+      [
+        "barra",
+        3
+      ],
+      [
+        "shampoo",
+        3
+      ],
+      [
+        "lamina de desintegracion oral",
+        3
+      ],
+      [
+        "jabon liquido",
+        3
+      ],
+      [
+        "laminas dispersables",
+        3
+      ],
+      [
+        "espuma rectal",
+        3
+      ],
+      [
+        "tisana",
+        3
+      ],
+      [
+        "liquido cutaneo",
+        2
+      ],
+      [
+        "pasta dental",
+        2
+      ],
+      [
+        "granulo para reconstituir",
+        2
+      ],
+      [
+        "linimento",
+        2
+      ],
+      [
+        "cataplasma",
+        2
+      ],
+      [
+        "implante intravitreo en aplicador",
+        2
+      ],
+      [
+        "liquido oral",
+        2
+      ],
+      [
+        "colodion",
+        2
+      ]
+    ],
+    "route": [
+      [
+        "uso bucofaringeo",
+        48
+      ],
+      [
+        "via intraperitoneal",
+        34
+      ],
+      [
+        "via intravitrea",
+        31
+      ],
+      [
+        "intraperitoneal",
+        22
+      ],
+      [
+        "via intratecal",
+        15
+      ],
+      [
+        "via epidural, via perineural",
+        15
+      ],
+      [
+        "otra via",
+        14
+      ],
+      [
+        "intratecal",
+        13
+      ],
+      [
+        "intratraqueal",
+        11
+      ],
+      [
+        "infiltracion",
+        11
+      ],
+      [
+        "intra-articular",
+        10
+      ],
+      [
+        "via epidural, via intratecal, via perineural, infiltracion",
+        9
+      ],
+      [
+        "intra-arterial",
+        8
+      ],
+      [
+        "intralesional",
+        7
+      ],
+      [
+        "intravesical",
+        6
+      ],
+      [
+        "infiltrativa - local",
+        6
+      ],
+      [
+        "via perineural, infiltracion",
+        6
+      ],
+      [
+        "via epidural",
+        6
+      ],
+      [
+        "raquidea",
+        5
+      ],
+      [
+        "infiltrativa - bloqueos",
+        5
+      ],
+      [
+        "infiltrativa-bloqueos",
+        5
+      ],
+      [
+        "via intrauterina",
+        5
+      ],
+      [
+        "bucofaringeo",
+        4
+      ],
+      [
+        "intrauterina",
+        4
+      ],
+      [
+        "dental",
+        4
+      ],
+      [
+        "via intraarticular",
+        4
+      ],
+      [
+        "irrigacion",
+        3
+      ],
+      [
+        "perineural",
+        3
+      ],
+      [
+        "uso epilesional",
+        3
+      ],
+      [
+        "hemodialisis",
+        3
+      ],
+      [
+        "circulacion extracorporea",
+        2
+      ],
+      [
+        "perfusion",
+        2
+      ],
+      [
+        "epidural raquidea e infiltracion",
+        2
+      ],
+      [
+        "intraarticular",
+        2
+      ],
+      [
+        "infiltrativa e epidural",
+        2
+      ],
+      [
+        "local/troncular",
+        2
+      ],
+      [
+        "epidural",
+        2
+      ],
+      [
+        "intracavernosa",
+        2
+      ],
+      [
+        "insuflacion",
+        2
+      ],
+      [
+        "uso dental, via perineural, infiltracion",
+        2
+      ]
+    ]
+  }
+}
