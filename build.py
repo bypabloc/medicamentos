@@ -12,6 +12,7 @@ import re
 import unicodedata
 from collections import Counter, defaultdict
 from datetime import datetime
+from decimal import Decimal, InvalidOperation
 from pathlib import Path
 
 import openpyxl
@@ -130,7 +131,7 @@ EQUIVALENT_RE = re.compile(
 CUT_RE = re.compile(r"(?<=\w)\s+\b(?:incluyendo|incuyendo|sobredosis|sobrecarga|expresad[oa])\b.*$", re.I)
 WRAPPER_RE = re.compile(
     r"\b(?:exceso|pellets|n[uú]cleo|dc|de compresi[oó]n directa|compresi[oó]n directa|microgr[aá]nulos"
-    r"|precomprimido|principio activo|cubierta|compactad[oa]|polvo granular|granular|polvo"
+    r"|precomprimido|principio activo|ingrediente activo|c\.a\.s\.?|cubierta|compactad[oa]|polvo granular|granular|polvo"
     r"|con recubrimiento ent[eé]rico|recubiert[oa]s?|gastrorresistentes?)\b", re.I,
 )
 UNIT_RE = re.compile(r"(?<![a-záéíóúñ])(?:mg|mcg|µg|ug|g|ml|ui|mui|u|m|meq|mmol|kui|c/u)(?![a-záéíóúñ])\.?", re.I)
@@ -172,6 +173,87 @@ def clean_ingredient(raw: str) -> str:
 def base_key(name: str) -> str:
     """Clave sin sales ni hidratos, para unir la sal con su sustancia base."""
     return " ".join(w for w in norm(name).split() if w not in SALT_WORDS)
+
+
+AMOUNT_RE = re.compile(
+    r"(\d+(?:[.,]\d+)*)\s*(mcg|µg|ug|mg|g|ml|u\.i\.|ui|u|meq|mmol|nmol|%)(?![a-z])"
+    r"(?:\s*/\s*(\d+(?:[.,]\d+)?)?\s*(ml|g)(?![a-z]))?"
+)
+UNITS = {"mg": "mg", "mcg": "mcg", "µg": "mcg", "ug": "mcg", "g": "g", "ml": "mL", "ui": "UI", "u.i.": "UI",
+         "u": "UI", "meq": "mEq", "mmol": "mmol", "nmol": "nmol", "%": "%"}
+PER_RE = re.compile(r"\bcada\s+(\d+(?:[.,]\d+)?)?\s*(ml|mililitros?|g|gramos?)\b")
+COMPONENT_COLUMNS = ["country", "product_id", "order", "ingredient_id", "ingredient_name", "strength_value",
+                     "strength_unit", "per_value", "per_unit", "strength_raw"]
+components: dict[str, list[dict]] = defaultdict(list)
+
+
+def number(raw: str, unit: str) -> str:
+    """Número con punto decimal: `550,00` → `550`, `1.000 UI` → `1000`, `3.000 mg` → `3`."""
+    text = raw
+    if "," in text and "." in text:
+        decimal = "," if text.rfind(",") > text.rfind(".") else "."
+        text = text.replace("." if decimal == "," else ",", "").replace(",", ".")
+    elif text.count(",") == 1:
+        text = text.replace(",", ".")
+    elif text.count(",") > 1 or text.count(".") > 1 or (unit == "UI" and re.fullmatch(r"\d+\.\d{3}", text)):
+        text = text.replace(",", "").replace(".", "")
+    try:
+        return f"{Decimal(text).normalize():f}"
+    except InvalidOperation:
+        return ""
+
+
+def amount(text: str) -> dict[str, str] | None:
+    """Primera cantidad con unidad del texto, con su denominador si lo trae (`200 mg/5 mL`)."""
+    match = AMOUNT_RE.search(norm(text))
+    if not match:
+        return None
+    unit = UNITS[match.group(2)]
+    value = number(match.group(1), unit)
+    if not value or Decimal(value) <= 0:
+        return None
+    per_unit = {"ml": "mL", "g": "g"}.get(match.group(4) or "", "")
+    return {"strength_value": value, "strength_unit": unit, "per_value": number(match.group(3) or "", per_unit),
+            "per_unit": per_unit, "strength_raw": match.group(0)}
+
+
+def formula_amounts(text: str, names: list[str]) -> list[dict[str, str] | None]:
+    """Cantidad de cada principio: la primera que aparece después de su nombre en la fórmula.
+
+    En «Paracetamol DC 90 (equivalente a acetaminofén 500 mg) … 550,00 mg» toma 500 mg, la dosis del
+    principio, y no 550 mg, que es el peso del granulado.
+    """
+    key = norm(text)
+    found: list[int | None] = []
+    for name in names:
+        words = sorted((w for w in base_key(name).split() if len(w) >= 5), key=len, reverse=True)
+        hits = [(key.find(c), len(c)) for c in [norm(name), *words] if c and key.find(c) >= 0]
+        found.append(hits[0][0] + hits[0][1] if hits else None)
+    starts = sorted(p for p in found if p is not None)
+    per = PER_RE.search(key)
+    out = []
+    for position in found:
+        if position is None:
+            out.append(None)
+            continue
+        end = next((s for s in starts if s > position), len(key))
+        item = amount(key[position:end])
+        if item and per and not item["per_unit"]:
+            item["per_unit"] = "mL" if per.group(2).startswith("m") else "g"
+            item["per_value"] = number(per.group(1) or "1", item["per_unit"])
+        out.append(item)
+    return out
+
+
+def strength_text(parts: list[dict[str, str] | None]) -> str:
+    """`500 mg + 5 mg`, o `200 mg/5 mL` si todos comparten denominador; vacío si falta alguno."""
+    if not parts or any(p is None for p in parts):
+        return ""
+    text = " + ".join(f"{p['strength_value']} {p['strength_unit']}" for p in parts if p)
+    pers = {(p["per_value"], p["per_unit"]) for p in parts if p}
+    if len(pers) == 1 and (per := pers.pop())[1]:
+        text += f"/{per[0] + ' ' if per[0] not in ('', '1') else ''}{per[1]}"
+    return text
 
 
 def split_ingredients(raw: str, separators: str = r"\+") -> list[str]:
@@ -275,10 +357,18 @@ class Dictionary:
         ]
 
 
-def product(dictionary: Dictionary, country: str, names: list[str], atc: str, **fields: str) -> dict:
+def product(dictionary: Dictionary, country: str, names: list[str], atc: str,
+            amounts: list[dict[str, str] | None], **fields: str) -> dict:
+    """Fila del producto y sus componentes; la concentración sale de los componentes si están todos."""
     ids = [dictionary.resolve(n, country, atc if len(names) == 1 else "") for n in names]
     row = {column: "" for column in PRODUCT_COLUMNS} | fields
     row |= {"country": country, "ingredients": " + ".join(names), "ingredient_ids": "|".join(ids), "atc_code": atc}
+    row["strength"] = strength_text(amounts) or row["strength"]
+    for order, (ingredient_id, name, part) in enumerate(zip(ids, names, amounts), start=1):
+        components[country].append({
+            "country": country, "product_id": row["id"], "order": order, "ingredient_id": ingredient_id,
+            "ingredient_name": name, **(part or {k: "" for k in COMPONENT_COLUMNS[5:]}),
+        })
     return row
 
 
@@ -303,8 +393,11 @@ def ecuador(dictionary: Dictionary) -> list[dict]:
             atc = cum[:7] if ATC_RE.match(cum) else ""
             atc = atc[:5] if atc.endswith("00") else atc
             brand = clean(r[6])
+            amounts = formula_amounts(clean(r[8]), names)
+            if all(a is None for a in amounts):
+                amounts = formula_amounts(clean(r[9]), names)
             out[registration] = product(
-                dictionary, "ec", names, atc, id=registration, registration=registration, trade_name=trade,
+                dictionary, "ec", names, atc, amounts, id=registration, registration=registration, trade_name=trade,
                 brand="" if norm(brand) == "generico" else brand,
                 kind={"Marca": "brand", "Genérico": "generic"}.get(clean(r[4]), ""),
                 strength=strength(clean(r[9]) or clean(r[8]), len(names)),
@@ -324,19 +417,22 @@ def colombia(dictionary: Dictionary) -> list[dict]:
     out = []
     for expediente, rows in groups.items():
         first = rows[0]
-        parts: dict[str, str] = {}
+        parts: dict[str, dict[str, str] | None] = {}
         for r in rows:
             for name in split_ingredients(clean(r.get("principioactivo"))):
-                amount = clean(r.get("cantidad"))
-                parts.setdefault(name, f"{amount} {clean(r.get('unidadmedida'))}".strip() if amount else "")
+                part = amount(f"{clean(r.get('cantidad'))} {clean(r.get('unidadmedida'))}")
+                per = re.fullmatch(r"(\d+(?:[.,]\d+)?)?\s*(ml|g)", norm(r.get("unidadreferencia")))
+                if part and per:
+                    part["per_unit"] = "mL" if per.group(2) == "ml" else "g"
+                    part["per_value"] = number(per.group(1) or "1", part["per_unit"])
+                parts.setdefault(name, part)
         if not parts or len(clean(first.get("producto"))) < 2:
             reject("co", expediente, "missing_name_or_ingredient", clean(first.get("producto")))
             continue
         atc = clean(first.get("atc"))
         out.append(product(
-            dictionary, "co", list(parts), atc if ATC_RE.match(atc) else "", id=expediente,
+            dictionary, "co", list(parts), atc if ATC_RE.match(atc) else "", list(parts.values()), id=expediente,
             registration=clean(first.get("registrosanitario")), trade_name=clean(first.get("producto")),
-            strength=" + ".join(v for v in parts.values() if v),
             dosage_form=dosage_form(clean(first.get("formafarmaceutica"))),
             dosage_form_raw=clean(first.get("formafarmaceutica")),
             routes=routes(clean(first.get("viaadministracion"))), route_raw=clean(first.get("viaadministracion")),
@@ -356,8 +452,11 @@ def spain(dictionary: Dictionary) -> list[dict]:
             continue
         form = clean((r.get("formaFarmaceutica") or {}).get("nombre"))
         route = ", ".join(clean(v.get("nombre")) for v in r.get("viasAdministracion") or [])
+        # CIMA da una sola «dosis» por producto y no garantiza el orden de las combinaciones: solo se
+        # asigna a un principio cuando es el único; una concentración en el principio equivocado es peor que ninguna.
+        amounts = [amount(clean(r.get("dosis")))] if len(names) == 1 else [None] * len(names)
         out.append(product(
-            dictionary, "es", names, "", id=str(r["nregistro"]), registration=str(r["nregistro"]),
+            dictionary, "es", names, "", amounts, id=str(r["nregistro"]), registration=str(r["nregistro"]),
             trade_name=clean(r.get("nombre")), kind="generic" if r.get("generico") else "brand",
             strength=clean(r.get("dosis")), dosage_form=dosage_form(form), dosage_form_raw=form,
             routes=routes(route), route_raw=route, holder=clean(r.get("labtitular")),
@@ -385,8 +484,12 @@ def main() -> None:
             for ingredient_id in row["ingredient_ids"].split("|"):
                 by_id[ingredient_id][f"products_{country}"] += 1
         write(f"medicamentos-{country}.csv", PRODUCT_COLUMNS, rows)
+        parts = sorted(components[country], key=lambda c: (c["product_id"], c["order"]))
+        write(f"componentes-{country}.csv", COMPONENT_COLUMNS, parts)
         report["products"][country] = {
             "rows": len(rows),
+            "components": len(parts),
+            "components_with_strength": sum(1 for c in parts if c["strength_value"]),
             "with_atc": sum(1 for r in rows if r["atc_code"]),
             "with_strength": sum(1 for r in rows if r["strength"]),
             "dosage_form_other": sum(1 for r in rows if r["dosage_form"] == "other"),

@@ -835,6 +835,7 @@ PA-antimetabolito,antimetabolito,L01B,antimetabolite,Q50429865,0,0,0,wikidata,ve
 PA-antimicobacteriano,antimicobacteriano,J04,antimycobacterial,Q2853298,0,0,0,wikidata,verified
 PA-antimigranoso,antimigrañoso,N02C,antimigraine,Q2853292,0,0,0,wikidata,verified
 PA-antimoniato-meglumina,antimoniato de meglumina,P01CB01,meglumine antimoniate,Q2757969,0,0,1,es|wikidata,verified
+PA-antimoniato-meglumina-antimoniato-meglumina,antimoniato de meglumina antimoniato de meglumina,,,,1,0,0,ec,unverified
 PA-antimony-pentasulfide,antimony pentasulfide,R05CA07,,Q420515,0,0,0,wikidata,verified
 PA-antinematodo,antinematodo,P02C,antinematodal agent,Q4774981,0,0,0,wikidata,verified
 PA-antineoplasico,antineoplásico,L01,agentes antineoplasicos|agentes antineoplásicos|anticancerigeno|anticancerígeno|antineoplasico|antineoplastic,Q2853144,0,0,0,wikidata,verified
@@ -1343,7 +1344,6 @@ PA-butorfanol,butorfanol,N02AF01,butorphanol,Q1185089,0,0,0,wikidata,verified
 PA-butriptilina,butriptilina,N06AA15,butriptyline,Q904524,0,0,0,wikidata,verified
 PA-butyroxan,butyroxan,C01CA,,Q4100214,0,0,0,wikidata,verified
 PA-c-urea,c-urea,V04CX05,,,0,1,0,co,unverified
-PA-c-a-s,c.a.s,,,,1,0,0,ec,unverified
 PA-c-d-p-colina,c.d.p. colina sódica,N06BX06,,,1,0,0,ec,unverified
 PA-cabazitaxel,cabazitaxel,L01CD04,,Q412963,1,7,7,co|ec|es|wikidata,verified
 PA-cabazitaxel-como-solvato-acetonico,cabazitaxel como solvato acetonico,L01CD04,,,0,1,0,co,unverified
@@ -1792,7 +1792,7 @@ PA-citrato-de-potasio-monohidrato,citrato de potasio monohidrato,,,,1,2,0,co|ec,
 PA-citrato-de-sodio,citrato de sodio,B05CB02,,,3,1,1,co|ec|es,verified
 PA-citrato-de-sodio-dihidrato,citrato de sodio dihidrato,,,,3,10,0,co|ec,verified
 PA-cladribina,cladribina,L01BB04|L04AA40,cladribine,Q414030,1,2,4,co|ec|es|wikidata,verified
-PA-claritromicina,claritromicina,J01FA09,clarithromycin,Q118551,29,30,25,co|ec|es|wikidata,verified
+PA-claritromicina,claritromicina,J01FA09,clarithromycin,Q118551,31,30,25,co|ec|es|wikidata,verified
 PA-claritromicina-esta-contenida-en,claritromicina está contenida en,,,,1,0,0,ec,unverified
 PA-claritromicina-granulos,claritromicina granulos,J01FA09,,,1,0,0,ec,unverified
 PA-claritromicina-microencapsulada,claritromicina microencapsulada,J01FA09,,,4,1,0,co|ec,verified
@@ -2328,7 +2328,7 @@ PA-dichlorobenzyl-alcohol,dichlorobenzyl alcohol,R02AA03,,Q209202,0,0,0,wikidata
 PA-dichlorophen,dichlorophen,P02DX02,,Q377552,0,0,0,wikidata,verified
 PA-dicicloverina,dicicloverina,A03AA07,diciclomina|dicyclomine,Q2662662,0,0,1,es|wikidata,verified
 PA-diclofenac-misoprostol,diclofenac/misoprostol,M01AB55,,Q5273861,0,0,0,wikidata,verified
-PA-diclofenaco,diclofenaco,D11AX18|M01AB05|M02AA15|S01BC03|S01CC01,cataflam|diclofenac|diclofenac sodico|diclofenac sódico|diclofenaco de sodio|diclofenaco potasico|diclofenaco potásico|diclofenaco sodico|diclofenaco sódico|viavox|voltaren|voltarén,Q244408,73,69,46,co|ec|es|wikidata,verified
+PA-diclofenaco,diclofenaco,D11AX18|M01AB05|M02AA15|S01BC03|S01CC01,cataflam|diclofenac|diclofenac sodico|diclofenac sódico|diclofenaco de sodio|diclofenaco potasico|diclofenaco potásico|diclofenaco sodico|diclofenaco sódico|viavox|voltaren|voltarén,Q244408,74,69,46,co|ec|es|wikidata,verified
 PA-diclofenaco-colestiramina,diclofenaco colestiramina,S01BC03,,,1,0,0,ec,unverified
 PA-diclofenaco-diclofenaco,diclofenaco sódico diclofenaco,M01AB55,,,1,0,0,ec,unverified
 PA-diclofenaco-dietilamina,diclofenaco dietilamina,,,,2,0,0,ec,unverified
@@ -2664,7 +2664,7 @@ PA-en,en anhidra,,,,1,0,0,ec,unverified
 PA-en-acido-ascorbico-vit-c,en acido ascorbico vit. c,,,,1,0,0,ec,unverified
 PA-en-amoxicilina,en amoxicilina,,,,2,0,0,ec,unverified
 PA-en-ampicilina,en ampicilina,,,,1,0,0,ec,unverified
-PA-en-antimonio-sb,en antimonio sb,P01CB01,,,1,0,0,ec,unverified
+PA-en-antimonio-sb,en antimonio sb,,,,1,0,0,ec,unverified
 PA-en-con-enterica-omeprazol-numero-registrado,en con entérica omeprazol número registrado,,,,1,0,0,ec,unverified
 PA-en-etanol,en etanol,,,,1,0,0,ec,unverified
 PA-en-pantotenato-calcio-vit-b,en pantotenato de calcio vit. b,,,,1,0,0,ec,unverified
@@ -3775,9 +3775,6 @@ PA-inertes,inertes,,,,1,0,0,ec,unverified
 PA-infanrix-hexa,infanrix hexa,J07CA09,,Q104186841,0,0,0,wikidata,verified
 PA-infliximab,infliximab,L04AB02,,Q415264,0,3,6,co|es|wikidata,verified
 PA-influvac,influvac,J07BB02,,Q4202214,0,0,0,wikidata,verified
-PA-ingrediente-activo-claritromicina,ingrediente activo claritromicina,J01FA09,,,2,0,0,ec,unverified
-PA-ingrediente-activo-diclofenaco,ingrediente activo diclofenaco sódico,M01AB05,,,1,0,0,ec,unverified
-PA-ingrediente-activo-pantoprazol-sesquihidratado,ingrediente activo pantoprazol sódico sesquihidratado,,,,1,0,0,ec,unverified
 PA-ingredientes-activos-dextrosa,ingredientes activos dextrosa hidratada,,,,1,0,0,ec,unverified
 PA-ingredientes-valsartan,ingredientes valsartan,,,,1,0,0,ec,unverified
 PA-inhaled-corticosteroid,inhaled corticosteroid,R03BA,,Q10535624,0,0,0,wikidata,verified
@@ -5159,7 +5156,7 @@ PA-pantetonato-calcio,pantetonato de calcio,,,,0,1,0,co,unverified
 PA-pantoprazol,pantoprazol,A02BC02,pantoprazol magnesico dihidrato|pantoprazol sodico sesquihidrato|pantoprazol sódico|pantoprazol sódico sesquihidrato|pantoprazole,Q286846,14,21,94,co|ec|es|wikidata,verified
 PA-pantoprazol-dihidratado,pantoprazol magnésico dihidratado,A02BC02,,,1,0,0,ec,unverified
 PA-pantoprazol-esteril,pantoprazol sódico estéril,,,,1,0,0,ec,unverified
-PA-pantoprazol-sesquihidratado,pantoprazol sódico sesquihidratado,A02BC02,,,1,0,0,ec,unverified
+PA-pantoprazol-sesquihidratado,pantoprazol sódico sesquihidratado,A02BC02,,,2,0,0,ec,unverified
 PA-pantotenato-calcio,pantotenato de calcio,,,,10,1,0,co|ec,verified
 PA-papaina,papaina,M09AB01,,,3,1,0,co|ec,verified
 PA-papaveretum,papaveretum,N02AA10,,Q4334652,0,0,0,wikidata,verified

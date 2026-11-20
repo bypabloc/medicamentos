@@ -7,15 +7,28 @@ Catálogo unificado de **medicamentos con registro sanitario vigente** y de sus 
 | `medicamentos-ec.csv` | Ecuador: registros sanitarios vigentes al 19/11/2026 | 6 376 | ARCSA, compilado en `fuentes/arcsa-2026-11-19.xlsx` |
 | `medicamentos-co.csv` | Colombia: expedientes con CUM activo (una fila por expediente) | 9 176 | INVIMA, [CUM vigentes](https://www.datos.gov.co/d/i7cb-raxc) |
 | `medicamentos-es.csv` | España: medicamentos comercializados | 16 107 | AEMPS, [CIMA](https://cima.aemps.es/cima/publico/home.html) |
-| `principios-activos.csv` | Diccionario común de principios activos (DCI), con ATC y sinónimos | 7 127 | Las tres anteriores + [Wikidata](https://www.wikidata.org/) |
+| `componentes-ec.csv` / `-co` / `-es` | Un renglón por principio activo de cada producto, con su concentración | 8 987 / 12 329 / 19 136 | Las mismas de su país |
+| `principios-activos.csv` | Diccionario común de principios activos (DCI), con ATC y sinónimos | 7 124 | Las tres anteriores + [Wikidata](https://www.wikidata.org/) |
 | `rechazados.csv` | Filas descartadas y su motivo | 192 | — |
 | `reporte.json` | Conteos, cobertura y formas o vías que no se pudieron clasificar | — | — |
 
 **¿Hay diferencia con Ecuador?** Sí en los productos: cada país registra sus propias marcas, laboratorios y presentaciones, y una receta en Ecuador debe usar lo que se vende ahí (`medicamentos-ec.csv`). No en los principios activos: la DCI es internacional, así que el diccionario es común y Colombia, España y Wikidata lo completan con sinónimos, sales y códigos ATC.
 
+```mermaid
+erDiagram
+  MEDICAMENTO ||--|{ COMPONENTE : "tiene (1..n)"
+  PRINCIPIO_ACTIVO ||--o{ COMPONENTE : "aparece en (0..n)"
+  MEDICAMENTO { string id "medicamentos-*.csv" }
+  COMPONENTE { string product_id string ingredient_id int order decimal strength_value string strength_unit }
+  PRINCIPIO_ACTIVO { string id "principios-activos.csv" }
+```
+
+Un medicamento tiene uno o más principios activos (las combinaciones) y un principio activo aparece en muchos medicamentos. `componentes-*.csv` es la tabla que los une, con la concentración de **cada** principio en ese producto.
+
 ```text
 .
 ├── medicamentos-{ec,co,es}.csv   # resultado final
+├── componentes-{ec,co,es}.csv    # resultado final: producto × principio activo
 ├── principios-activos.csv        # resultado final
 ├── rechazados.csv, reporte.json  # control de calidad de la corrida
 ├── build.py                      # paso 2: normaliza, une y valida
@@ -47,6 +60,27 @@ Catálogo unificado de **medicamentos con registro sanitario vigente** y de sus 
 | `in_cnmb` | `true`/`false`: pertenece al Cuadro Nacional de Medicamentos Básicos (`ec`) |
 | `atc_code` | Código ATC de nivel 5 (o 4 si la fuente no da el 5) |
 | `valid_until` | Vigencia del registro (ISO `YYYY-MM-DD`) |
+
+## Columnas de `componentes-*.csv`
+
+| Columna | Descripción |
+| :--- | :--- |
+| `country` | `ec`, `co` o `es` |
+| `product_id` | `id` del producto en `medicamentos-<país>.csv` |
+| `order` | Posición del principio en el producto (1, 2...), la misma que en `ingredients` |
+| `ingredient_id` | `id` de `principios-activos.csv` |
+| `ingredient_name` | Nombre del principio tal como lo da el producto (con su sal) |
+| `strength_value` | Cantidad con punto decimal (`500`, `12.5`, `0.6`); vacío si no se pudo leer |
+| `strength_unit` | `mg`, `mcg`, `g`, `mL`, `UI`, `mEq`, `mmol`, `nmol` o `%` |
+| `per_value`, `per_unit` | Denominador si la cantidad es por volumen o masa (`5` + `mL` en «250 mg/5 mL»; `100` + `g` en una crema); vacío en formas unitarias (tableta, cápsula) |
+| `strength_raw` | El texto del que salió la cantidad, para revisarla |
+
+* `(product_id, order)` y `(product_id, ingredient_id)` son únicos. Cada `ingredient_id` existe en `principios-activos.csv` y cada `product_id` en el archivo de productos de su país.
+* La columna `strength` de `medicamentos-*.csv` se arma desde aquí cuando todos los componentes tienen cantidad (`500 mg + 5 mg + 2 mg + 15 mg`, `250 mg/5 mL`).
+* **Cómo se lee la cantidad**:
+  * **Ecuador**: en la fórmula oficial de ARCSA, la primera cantidad que aparece después del nombre de cada principio. Así, en «Paracetamol DC 90 (equivalente a acetaminofén 500 mg) … 550,00 mg» se toma 500 mg, la dosis, y no el peso del granulado.
+  * **Colombia**: viene por principio en INVIMA (`cantidad`, `unidadmedida`, `unidadreferencia`).
+  * **España**: CIMA publica una sola dosis por producto y no garantiza el orden en las combinaciones, así que solo se asigna cuando el producto tiene un único principio. En las combinaciones queda vacía: una cantidad asignada al principio equivocado es peor que ninguna.
 
 ## Columnas de `principios-activos.csv`
 

@@ -3,27 +3,33 @@
   "products": {
     "ec": {
       "rows": 6376,
+      "components": 8987,
+      "components_with_strength": 8694,
       "with_atc": 6051,
-      "with_strength": 6334,
+      "with_strength": 6354,
       "dosage_form_other": 77,
       "without_route": 48
     },
     "co": {
       "rows": 9176,
+      "components": 12329,
+      "components_with_strength": 12132,
       "with_atc": 9167,
-      "with_strength": 9176,
+      "with_strength": 9049,
       "dosage_form_other": 172,
       "without_route": 96
     },
     "es": {
       "rows": 16107,
+      "components": 19136,
+      "components_with_strength": 12818,
       "with_atc": 0,
       "with_strength": 15980,
       "dosage_form_other": 156,
       "without_route": 223
     }
   },
-  "ingredients": 7067,
+  "ingredients": 7064,
   "rejected": {
     "ec:missing_name_or_ingredient": 53,
     "co:missing_name_or_ingredient": 135,
