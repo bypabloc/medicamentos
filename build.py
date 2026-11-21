@@ -357,10 +357,30 @@ class Dictionary:
         ]
 
 
+def merge_repeated(ids: list[str], names: list[str], amounts: list[dict[str, str] | None]
+                   ) -> tuple[list[str], list[str], list[dict[str, str] | None]]:
+    """Une los principios repetidos de un producto (sal y nombre base, como AMLODIPINO BESILATO y AMLODIPINA).
+
+    Queda el primer nombre; la cantidad es la única informada o vacía si se contradicen, nunca una elegida.
+    Solo Ecuador: en Colombia el diccionario junta sales distintas (PA-cloruro) y unirlas perdería principios.
+    """
+    merged: dict[str, tuple[str, list[dict[str, str]]]] = {}
+    for ingredient_id, name, part in zip(ids, names, amounts):
+        first, parts = merged.setdefault(ingredient_id, (name, []))
+        # strength_raw no cuenta: «100.0 mg» y «100mg» son la misma cantidad.
+        if part and all({**part, "strength_raw": ""} != {**p, "strength_raw": ""} for p in parts):
+            parts.append(part)
+    out_ids = list(merged)
+    return (out_ids, [merged[i][0] for i in out_ids],
+            [merged[i][1][0] if len(merged[i][1]) == 1 else None for i in out_ids])
+
+
 def product(dictionary: Dictionary, country: str, names: list[str], atc: str,
             amounts: list[dict[str, str] | None], **fields: str) -> dict:
     """Fila del producto y sus componentes; la concentración sale de los componentes si están todos."""
     ids = [dictionary.resolve(n, country, atc if len(names) == 1 else "") for n in names]
+    if country == "ec":
+        ids, names, amounts = merge_repeated(ids, names, amounts)
     row = {column: "" for column in PRODUCT_COLUMNS} | fields
     row |= {"country": country, "ingredients": " + ".join(names), "ingredient_ids": "|".join(ids), "atc_code": atc}
     row["strength"] = strength_text(amounts) or row["strength"]

@@ -618,7 +618,7 @@ PA-amitriptilinaclorhidrato,amitriptilinaclorhidrato,N06AA09,,,0,1,0,co,unverifi
 PA-amivantamab,amivantamab,L01FX18,,,1,0,5,ec|es,verified
 PA-amlessa,amlessa,C09BB04,,Q97479028,0,0,0,wikidata,verified
 PA-amlexanox,amlexanox,A01AD07|R03DX01,,Q695611,0,0,0,wikidata,verified
-PA-amlodipina,amlodipina,C08CA01|C09DB01|C09DX01,amlodipina besilato|amlodipine|amlodipino|amlodipino besilato|besilato de amlodipina|besilato de amlodipino,Q411347,103,83,350,co|ec|es|wikidata,verified
+PA-amlodipina,amlodipina,C08CA01|C09DB01|C09DX01,amlodipina besilato|amlodipine|amlodipino|amlodipino besilato|besilato de amlodipina|besilato de amlodipino,Q411347,101,83,350,co|ec|es|wikidata,verified
 PA-amlodipine-atorvastatin,amlodipine / atorvastatin,C10BX03,,Q48566808,0,0,0,wikidata,verified
 PA-amlodipine-perindopril,amlodipine / perindopril,C09BB04,,Q48566830,0,0,0,wikidata,verified
 PA-amlodipine-valsartan-hydrochlorothiazide,amlodipine / valsartan / hydrochlorothiazide,C09DX01,,Q28859634,0,0,0,wikidata,verified
@@ -2579,7 +2579,7 @@ PA-duloxetina-granulos,duloxetina . granulos,N06AX21,,,0,1,0,co,unverified
 PA-duloxetine,duloxetine,N06AX21,(s)-duloxetine,Q411932,0,0,0,wikidata,verified
 PA-dupilumab,dupilumab,D11AH05,,Q5315925,0,2,4,co|es|wikidata,verified
 PA-durvalumab,durvalumab,L01FF03|L01XC28,,Q19904005,1,1,6,co|ec|es|wikidata,verified
-PA-dutasterida,dutasterida,G04CB02,dutasteride,Q424760,7,14,44,co|ec|es|wikidata,verified
+PA-dutasterida,dutasterida,G04CB02,dutasteride,Q424760,6,14,44,co|ec|es|wikidata,verified
 PA-dutasterida-unidad,dutasterida unidad,,,,1,0,0,ec,unverified
 PA-dutasteride-tamsulosin,dutasteride / tamsulosin,G04CA52,,Q48566750,0,0,0,wikidata,verified
 PA-dxtrosa,dxtrosa anhidra,,,,0,1,0,co,unverified
@@ -3080,7 +3080,7 @@ PA-fenoverina,fenoverina,A03AX05,,,0,1,0,co,unverified
 PA-fenoverine,fenoverine,A03AX05,,Q3742487,0,0,0,wikidata,verified
 PA-fenoxazoline,fenoxazoline,R01AA12,,Q5443567,0,0,0,wikidata,verified
 PA-fenoxibenzamina,fenoxibenzamina,C04AX02,phenoxybenzamine,Q419824,0,0,0,wikidata,verified
-PA-fenoximetilpenicilina,fenoximetilpenicilina,J01CE02,fenoximetilpenicilina potásica|penicilina v|penicilina v potásica|penicillin v,Q422215,3,1,4,co|ec|es|wikidata,verified
+PA-fenoximetilpenicilina,fenoximetilpenicilina,J01CE02,fenoximetilpenicilina potásica|penicilina v|penicilina v potásica|penicillin v,Q422215,2,1,4,co|ec|es|wikidata,verified
 PA-fenoximetilpenicilina-benzatina,fenoximetilpenicilina-benzatina,J01CE10,penicillin v benzathine,Q4890751,0,0,0,wikidata,verified
 PA-fenozolone,fenozolone,N06BA08,,Q2784534,0,0,0,wikidata,verified
 PA-fenpiprane,fenpiprane,A03AX01,,Q5443568,0,0,0,wikidata,verified
@@ -4477,7 +4477,7 @@ PA-metacualona,metacualona,N05CM01,methaqualone,Q423912,0,0,0,wikidata,verified
 PA-metadona,metadona,N02AC52|N07BC02,(rs)-methadone|adolfina|metadona clorhidrato,Q179996,1,3,8,co|ec|es|wikidata,verified
 PA-metadoxina,metadoxina,N07BB01|N07BB99,,,1,4,0,co|ec,verified
 PA-metahexamide,metahexamide,A10BB10,,Q6553356,0,0,0,wikidata,verified
-PA-metamizol,metamizol,N02BB02,dipirona|dipirona sodica|dipirona sodica monohidrato|dipirona sódica|metamizol sodico|metamizol sódico|metamizol sódico monohidrato|metamizole sodium|nolotil,Q422761,9,28,24,co|ec|es|wikidata,verified
+PA-metamizol,metamizol,N02BB02,dipirona|dipirona sodica|dipirona sodica monohidrato|dipirona sódica|metamizol sodico|metamizol sódico|metamizol sódico monohidrato|metamizole sodium|nolotil,Q422761,8,28,24,co|ec|es|wikidata,verified
 PA-metamizol-monohidratado,metamizol sódico monohidratado,,,,1,0,0,ec,unverified
 PA-metampicillin,metampicillin,J01CA14,,Q6584200,0,0,0,wikidata,verified
 PA-metanfetamina,metanfetamina,N06BA03,d-methamphetamine|desoxiefedrina|metanfetaminas|metedrina|polvorón|siabú,Q191924,0,0,0,wikidata,verified
@@ -5171,7 +5171,7 @@ PA-para-suspension-azitromicina,para suspensión azitromicina dihidrato,,,,1,0,0
 PA-para-un-sobre,para un sobre de,,,,1,0,0,ec,unverified
 PA-para-un-total,para un total de,,,,1,0,0,ec,unverified
 PA-para-una-dosis,para una dosis de,J07BB02|J07BC02,,,3,0,0,ec,unverified
-PA-paracetamol,paracetamol,N02AX52|N02BE01|N02BE51,acetaminofen|acetaminofeno|acetaminofén|paracetamol anhidra,Q57055,208,293,259,co|ec|es|wikidata,verified
+PA-paracetamol,paracetamol,N02AX52|N02BE01|N02BE51,acetaminofen|acetaminofeno|acetaminofén|paracetamol anhidra,Q57055,205,293,259,co|ec|es|wikidata,verified
 PA-paracetamol-w-v,paracetamol . w/v,N02BE01,,,1,0,0,ec,unverified
 PA-paracetamol-cd,paracetamol cd,N02BE01,,,1,0,0,ec,unverified
 PA-paracetamol-codeina-hemihidratado,paracetamol fosfato de codeína hemihidratado,,,,1,0,0,ec,unverified
