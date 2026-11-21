@@ -7,7 +7,7 @@ Catálogo unificado de **medicamentos con registro sanitario vigente** y de sus 
 | `medicamentos-ec.csv` | Ecuador: registros sanitarios vigentes al 19/11/2026 | 6 376 | ARCSA, compilado en `fuentes/arcsa-2026-11-19.xlsx` |
 | `medicamentos-co.csv` | Colombia: expedientes con CUM activo (una fila por expediente) | 9 176 | INVIMA, [CUM vigentes](https://www.datos.gov.co/d/i7cb-raxc) |
 | `medicamentos-es.csv` | España: medicamentos comercializados | 16 107 | AEMPS, [CIMA](https://cima.aemps.es/cima/publico/home.html) |
-| `componentes-ec.csv` / `-co` / `-es` | Un renglón por principio activo de cada producto, con su concentración | 8 987 / 12 329 / 19 136 | Las mismas de su país |
+| `componentes-ec.csv` / `-co` / `-es` | Un renglón por principio activo de cada producto, con su concentración | 8 979 / 12 329 / 19 136 | Las mismas de su país |
 | `principios-activos.csv` | Diccionario común de principios activos (DCI), con ATC y sinónimos | 7 124 | Las tres anteriores + [Wikidata](https://www.wikidata.org/) |
 | `rechazados.csv` | Filas descartadas y su motivo | 192 | — |
 | `reporte.json` | Conteos, cobertura y formas o vías que no se pudieron clasificar | — | — |
@@ -75,7 +75,7 @@ Un medicamento tiene uno o más principios activos (las combinaciones) y un prin
 | `per_value`, `per_unit` | Denominador si la cantidad es por volumen o masa (`5` + `mL` en «250 mg/5 mL»; `100` + `g` en una crema); vacío en formas unitarias (tableta, cápsula) |
 | `strength_raw` | El texto del que salió la cantidad, para revisarla |
 
-* `(product_id, order)` y `(product_id, ingredient_id)` son únicos. Cada `ingredient_id` existe en `principios-activos.csv` y cada `product_id` en el archivo de productos de su país.
+* `(product_id, order)` y `(product_id, ingredient_id)` son únicos en Ecuador: si un producto repite un principio (la sal y el nombre base, como AMLODIPINO BESILATO y AMLODIPINA), queda una fila con el primer nombre y la cantidad informada, o vacía si las dos se contradicen. En Colombia el par puede repetirse: el diccionario todavía junta sales distintas en un mismo `id` (`PA-cloruro`). Cada `ingredient_id` existe en `principios-activos.csv` y cada `product_id` en el archivo de productos de su país.
 * La columna `strength` de `medicamentos-*.csv` se arma desde aquí cuando todos los componentes tienen cantidad (`500 mg + 5 mg + 2 mg + 15 mg`, `250 mg/5 mL`).
 * **Cómo se lee la cantidad**:
   * **Ecuador**: en la fórmula oficial de ARCSA, la primera cantidad que aparece después del nombre de cada principio. Así, en «Paracetamol DC 90 (equivalente a acetaminofén 500 mg) … 550,00 mg» se toma 500 mg, la dosis, y no el peso del granulado.
